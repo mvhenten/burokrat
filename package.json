@@ -1,18 +1,22 @@
 {
-  "name": "Burocrat",
+  "name": "burocrat",
   "version": "0.0.1",
   "description": "A true bureaucrat needs forms",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "./node_modules/mocha/bin/mocha --recursive -u tdd -R spec test/*"
   },
   "author": "Matthijs van Henten",
   "license": "BSD",
   "devDependencies": {
     "js-beautify": "~1.4.2",
-    "jshint": "~2.3.0"
+    "jshint": "~2.3.0",
+    "mocha": "~1.15.1"
   },
   "dependencies": {
-    "forms": "~0.3.0"
+    "forms": "~0.3.0",
+    "lodash": "~2.4.1",
+    "sliced": "0.0.5",
+    "async": "~0.2.9"
   }
 }
