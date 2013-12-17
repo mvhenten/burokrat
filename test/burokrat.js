@@ -11,6 +11,7 @@ var Form = Burokrat.create(function() {
             required: false,
             label: 'Screen name',
             validators: [
+
                 function(f, field, next) {
                     return next('not a thing');
             }]
@@ -57,6 +58,8 @@ suite('really simple checks', function() {
             test: '123'
         }, function(err, form) {
             assert.deepEqual(form.errors, expect, 'got expected errors');
+
+            assert.deepEqual(f.errors, expect, 'got expected errors');
             done();
         });
     });
