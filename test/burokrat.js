@@ -43,6 +43,29 @@ var Form = Burokrat.create(function() {
 });
 
 suite('burokrat', function() {
+    test('nested fields', function() {
+        var def = {
+            one: {
+                two: {
+                    four: {
+                        type: 'text',
+                        required: 'I am required',
+                        value: Faker.Lorem.sentence()
+                    }
+                }
+            }
+        };
+
+
+        var Form = Burokrat.create(function() {
+            this.fields = def;
+        });
+
+        var f = new Form();
+
+        assert.equal(f.values.one.two.four, def.one.two.four.value);
+    });
+
 
     test('check if error looks ok', function(done) {
         var f = new Form();
