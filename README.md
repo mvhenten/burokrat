@@ -1,19 +1,31 @@
 burokrat - build forms like a bureaucrat
 ========================================
+*burokrat is a form framework*
 
 ### disclaimer
 
 > this software is in beta status. It's missing tests and still needs to be battle
 > tested in a real environment.
 
-I like (forms)[https://npmjs.org/package/forms] but not enough. Forms is implemented
+I like [forms](https://npmjs.org/package/forms) but not enough. Forms is implemented
 in a way that it forces me to keep some state across my controllers, where I prefer
 the entire form state to be contained within a single object.
 
-I also prefer my data and forms to be structured as nested objects, so I can loop
-over parts of my form and selectively build the entire html by hand. This module
-wraps the most usefull parts of forms (for now) and offers an entirely different
-API.
+Burokrat takes care of both rendering and validating your forms, just
+like [forms](https://npmjs.org/package/forms), and it'll let you render parts
+and pieces selectively. This module wraps the most usefull parts of forms (for now),
+but offers an entirely different API.
+
+Porting your forms from `forms` is relatively easy, since burokrat borrows the
+widgets and fields from forms, as well as the validation framework.
+
+Fields can be nested objects, making it easier to group parts of your form inside
+the templates. The *names* of  your form elements reflect the nested object structure,
+and will be parsed back as objects by [node-querystring](https://github.com/visionmedia/node-querystring).
+
+Burokrat only exposes one function, *validate*. State is maintained inside the
+form object, and there's no difference between a *bound* form or a non-bound form.
+
 
 Example
 
