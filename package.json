@@ -1,6 +1,6 @@
 {
     "name": "burokrat",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A true bureaucrat needs forms",
     "main": "index.js",
     "repository": {
@@ -25,5 +25,5 @@
         "async": "~0.2.9"
     },
     "readmeFilename": "README.md",
-    "gitHead": "98ce34dab81e539dc7efda629ce18652051f42cd"
+    "gitHead": "cf9e825fe4ab3e85465bf3ae0e2427c39c20a9ca"
 }
