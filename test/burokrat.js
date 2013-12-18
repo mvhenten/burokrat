@@ -80,7 +80,7 @@ suite('burokrat', function() {
         };
 
         f.validate(values, function(err, form) {
-            assert.equal(form.erors, null, 'got no errors');
+            assert.deepEqual(form.errors, {}, 'got no errors');
             assert.equal(form.isValid, true);
             assert.deepEqual(form.values, values, 'expected values');
 
