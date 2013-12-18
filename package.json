@@ -1,6 +1,6 @@
 {
     "name": "burokrat",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A true bureaucrat needs forms",
     "keywords": [
       "html", "form", "framework", "validation", "validate", "http"
@@ -28,5 +28,5 @@
         "async": "~0.2.9"
     },
     "readmeFilename": "README.md",
-    "gitHead": "cf9e825fe4ab3e85465bf3ae0e2427c39c20a9ca"
+    "gitHead": "c1c24784bdff8ed23843899b3cf2ea9c24594a43"
 }
