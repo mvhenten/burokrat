@@ -1,19 +1,20 @@
 'use strict';
 
-var assert = require('assert');
-
-var Burokrat = require('../index');
+var assert = require('assert'),
+    Burokrat = require('../index'),
+    Faker = require('Faker');
 
 var Form = Burokrat.create(function() {
     this.fields = {
-        test: {
+        name: {
             type: 'text',
             required: false,
             label: 'Screen name',
             validators: [
 
                 function(f, field, next) {
-                    return next('not a thing');
+                    var err = /\d+/.test(field.data) ? 'not a thing' : null;
+                    return next(err);
             }]
         },
         profile: {
@@ -41,13 +42,13 @@ var Form = Burokrat.create(function() {
     };
 });
 
-suite('really simple checks', function() {
+suite('burokrat', function() {
 
     test('check if error looks ok', function(done) {
         var f = new Form();
 
         var expect = {
-            test: 'not a thing',
+            name: 'not a thing',
             profile: {
                 culture: 'This field is required.',
                 password: 'This field is required.'
@@ -55,11 +56,34 @@ suite('really simple checks', function() {
         };
 
         f.validate({
-            test: '123'
+            name: '123'
         }, function(err, form) {
-            assert.deepEqual(form.errors, expect, 'got expected errors');
 
-            assert.deepEqual(f.errors, expect, 'got expected errors');
+            assert.deepEqual(form.errors, expect, 'got expected errors');
+            assert.deepEqual(form.errors, f.errors, 'form state keeps the errors');
+
+            done();
+        });
+    });
+
+
+    test('form.values returns values', function(done) {
+        var f = new Form();
+
+        var values = {
+            name: Faker.Name.findName(),
+            profile: {
+                culture: 'nl-NL',
+                password: Faker.Lorem.sentence(),
+                description: Faker.Company.catchPhrase()
+            }
+        };
+
+        f.validate(values, function(err, form) {
+            assert.equal(form.erors, null, 'got no errors');
+            assert.equal(form.isValid, true);
+            assert.deepEqual(form.values, values, 'expected values');
+
             done();
         });
     });
