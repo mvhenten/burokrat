@@ -2,6 +2,9 @@
     "name": "burokrat",
     "version": "0.0.2",
     "description": "A true bureaucrat needs forms",
+    "keywords": [
+      "html", "form", "framework", "validation", "validate", "http"
+    ],
     "main": "index.js",
     "repository": {
         "type": "git",
