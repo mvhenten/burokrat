@@ -1,6 +1,8 @@
 'use strict';
 
 var assert = require('assert'),
+    _ = require('lodash'),
+    async = require('async'),
     Burokrat = require('../index'),
     Faker = require('Faker');
 
@@ -27,7 +29,7 @@ var Form = Burokrat.create(function() {
             culture: {
                 type: 'select',
                 options: ['nl-NL', 'en-EN'],
-                required: true,
+                error: 'Choose a valid culture',
                 label: 'culture',
                 validators: []
             },
@@ -43,6 +45,7 @@ var Form = Burokrat.create(function() {
 });
 
 suite('burokrat', function() {
+
     test('nested fields', function() {
         var def = {
             one: {
@@ -66,30 +69,6 @@ suite('burokrat', function() {
         assert.equal(f.values.one.two.four, def.one.two.four.value);
     });
 
-
-    test('check if error looks ok', function(done) {
-        var f = new Form();
-
-        var expect = {
-            name: 'not a thing',
-            profile: {
-                culture: 'This field is required.',
-                password: 'This field is required.'
-            }
-        };
-
-        f.validate({
-            name: '123'
-        }, function(err, form) {
-
-            assert.deepEqual(form.errors, expect, 'got expected errors');
-            assert.deepEqual(form.errors, f.errors, 'form state keeps the errors');
-
-            done();
-        });
-    });
-
-
     test('form.values returns values', function(done) {
         var f = new Form();
 
@@ -111,6 +90,27 @@ suite('burokrat', function() {
         });
     });
 
+    test('check if error looks ok', function(done) {
+        var f = new Form();
+
+        var expect = {
+            name: 'not a thing',
+            profile: {
+                culture: 'Choose a valid culture',
+                password: 'This field is required.'
+            }
+        };
+
+        f.validate({
+            name: '123'
+        }, function(err, form) {
+
+            assert.deepEqual(form.errors, expect, 'got expected errors');
+            assert.deepEqual(form.errors, f.errors, 'form state keeps the errors');
+
+            done();
+        });
+    });
 
     test('required sets the error message', function(done) {
         var error = Faker.Lorem.sentence();
@@ -134,6 +134,57 @@ suite('burokrat', function() {
             assert.deepEqual(f.errors, expect);
             done();
         });
+    });
+
+    test('options has a built in error check', function(done) {
+        var error = Faker.Lorem.sentence(),
+            options = Faker.Lorem.words();
+
+        var Form = Burokrat.create(function() {
+
+            this.fields = {
+                foo: {
+                    type: 'select',
+                    error: error,
+                    options: options
+                }
+            };
+        });
+
+        var cases = [
+            {
+                label: 'Empty form is not ok',
+                values: {},
+                errors: {
+                    foo: error,
+                }
+            },
+            {
+                label: 'Value must be one of options',
+                values: {
+                    foo: 'not an option'
+                },
+                errors: {
+                    foo: error,
+                }
+            },
+            {
+                label: 'One of the options is ok',
+                values: {
+                    foo: _.sample(options)
+                },
+                errors: {}
+            }
+        ];
+
+        async.each(cases, function(testCase, next) {
+            var f = new Form();
+
+            f.validate(testCase.values, function() {
+                assert.deepEqual(f.errors, testCase.errors, testCase.label);
+                next();
+            });
+        }, done);
     });
 
 });
