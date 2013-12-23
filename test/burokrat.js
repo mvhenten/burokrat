@@ -110,4 +110,30 @@ suite('burokrat', function() {
             done();
         });
     });
+
+
+    test('required sets the error message', function(done) {
+        var error = Faker.Lorem.sentence();
+
+        var Form = Burokrat.create(function() {
+            this.fields = {
+                foo: {
+                    type: 'text',
+                    required: error
+                }
+            };
+        });
+
+        var f = new Form();
+
+        f.validate({}, function() {
+            var expect = {
+                foo: error
+            };
+
+            assert.deepEqual(f.errors, expect);
+            done();
+        });
+    });
+
 });
