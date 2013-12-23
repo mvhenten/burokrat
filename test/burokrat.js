@@ -28,8 +28,8 @@ var Form = Burokrat.create(function() {
             },
             culture: {
                 type: 'select',
+                required: 'Choose a valid culture',
                 options: ['nl-NL', 'en-EN'],
-                error: 'Choose a valid culture',
                 label: 'culture',
                 validators: []
             },
@@ -153,11 +153,9 @@ suite('burokrat', function() {
 
         var cases = [
             {
-                label: 'Empty form is not ok',
+                label: 'Empty form is ok',
                 values: {},
-                errors: {
-                    foo: error,
-                }
+                errors: {}
             },
             {
                 label: 'Value must be one of options',
