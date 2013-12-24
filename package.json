@@ -3,8 +3,13 @@
     "version": "0.0.4",
     "description": "A true bureaucrat needs forms",
     "keywords": [
-      "html", "form", "framework", "validation", "validate", "http"
-    ],
+    "html",
+    "form",
+    "framework",
+    "validation",
+    "validate",
+    "http"
+  ],
     "main": "index.js",
     "repository": {
         "type": "git",
@@ -25,7 +30,8 @@
         "forms": "~0.3.0",
         "lodash": "~2.4.1",
         "sliced": "0.0.5",
-        "async": "~0.2.9"
+        "async": "~0.2.9",
+        "escape-html": "~1.0.1"
     },
     "readmeFilename": "README.md",
     "gitHead": "7c132cfde5ae24bfdeb83054f30745f7ad61d063"
