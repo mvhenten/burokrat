@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      label {
+        display: block;
+      }
+      .error input, .error textarea, .error select {
+        border: 1px solid red;
+      }
+
+      .error_msg {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <form method="post">
+      <%- form %>
+      <input type="submit"/>
+    </form>
+  </body>
+</html>
