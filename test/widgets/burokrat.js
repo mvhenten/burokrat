@@ -105,13 +105,48 @@ suite('burokrat/widgets', function() {
 
     test('select', function() {
         var input = Widgets.select(),
-            name = _.sample(Faker.Lorem.words()),
-            field = {
-                options: Faker.Lorem.words(),
-                value: Faker.Lorem.sentence()
+            opts = Faker.Lorem.words().concat(Faker.Lorem.words()),
+            name = _.sample(Faker.Lorem.words());
+
+        var _options = function(options) {
+            return _.map(options, function(selected, name) {
+                return util.format('<option selected="%s" value="%s">%s</option>', selected, name, name);
+            }).join('\n');
+        };
+
+        var cases = [
+            {
+                label: 'none is selected when value null',
+                options: _.zipObject([opts[0], opts[1]], [false, false]),
+                value: null
+          },
+            {
+                label: 'none is selected when value not an option',
+                options: _.zipObject([opts[0], opts[1]], [false, false]),
+                value: opts[2]
+          },
+            {
+                label: 'one is selected',
+                options: _.zipObject([opts[0], opts[1]], [true, false]),
+                value: opts[0]
+          },
+            {
+                label: 'two is selected',
+                options: _.zipObject([opts[0], opts[1]], [false, true]),
+                value: opts[1]
+          }
+        ];
+
+        _.each(cases, function(testCase) {
+            var field = {
+                value: testCase.value,
+                options: _.keys(testCase.options).sort()
             };
 
-        console.log(input.toHTML(name, field));
+            var expect = util.format('<select id="id_%s" name="%s">%s</select>', name, name, _options(testCase.options));
+            assert.deepEqual(input.toHTML(name, field), expect);
+        });
+
 
     });
 
