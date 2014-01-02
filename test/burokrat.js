@@ -45,6 +45,63 @@ var Form = Burokrat.create(function() {
 });
 
 suite('burokrat', function() {
+    test('test validation and required', function(done) {
+        var value = Faker.Lorem.sentence();
+
+        var Form = Burokrat.create(function() {
+            this.fields = {
+                name: {
+                    type: 'text',
+                    required: 'required',
+                    validators: [
+
+                        function(f, field, next) {
+                            return next(field.data !== value ? 'error' : null);
+                    }]
+                },
+            };
+        });
+
+        var cases = [
+            {
+                label: 'Empty value reports required',
+                values: {},
+                errors: {
+                    name: 'required'
+                },
+                isValid: false
+            },
+            {
+                label: 'Wrong value reports error',
+                values: {
+                    name: 'x' + Faker.Lorem.sentence()
+                },
+                errors: {
+                    name: 'error'
+                },
+                isValid: false
+            },
+            {
+                label: 'no errors when value validates',
+                values: {
+                    name: value
+                },
+                errors: {},
+                isValid: true
+            }
+        ];
+
+        async.each(cases, function(testCase, next) {
+            var form = new Form();
+
+            form.validate(testCase.values, function() {
+                assert.equal(form.isValid, testCase.isValid, testCase.label);
+                assert.deepEqual(form.errors, testCase.errors);
+                next();
+            });
+
+        }, done);
+    });
 
     test('nested fields', function() {
         var def = {
