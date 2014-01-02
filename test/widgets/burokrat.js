@@ -109,7 +109,8 @@ suite('burokrat/widgets', function() {
             name = _.sample(Faker.Lorem.words());
 
         var _options = function(options) {
-            return _.map(options, function(selected, name) {
+            return _.map(_.keys(options).sort(), function(name) {
+                var selected = options[name];
                 return util.format('<option selected="%s" value="%s">%s</option>', selected, name, name);
             }).join('\n');
         };
