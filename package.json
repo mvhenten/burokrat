@@ -1,6 +1,6 @@
 {
     "name": "burokrat",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "A true bureaucrat needs forms",
     "keywords": [
     "html",
@@ -34,5 +34,5 @@
         "escape-html": "~1.0.1"
     },
     "readmeFilename": "README.md",
-    "gitHead": "b5b0e1bf9d5d08e7044b60543a45be11ef7d5179"
+    "gitHead": "a6caf3008bd8879488e953f1bca1997c23731215"
 }
