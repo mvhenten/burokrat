@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert'),
+    diff = require('assert-diff'),
     _ = require('lodash'),
     async = require('async'),
     Burokrat = require('../index'),
@@ -45,6 +46,60 @@ var Form = Burokrat.create(function() {
 });
 
 suite('burokrat', function() {
+    test('populate', function(done) {
+        var name = Faker.Name.findName(),
+            culture = Faker.Lorem.sentence(),
+            description = Faker.Company.bs(),
+            password = Faker.Lorem.sentence();
+
+        var cases = [
+            {
+                label: 'Empty values in, empty out',
+                values: {},
+                expect: {},
+            },
+            {
+                label: 'Set one value, get one value',
+                values: {
+                    name: name
+                },
+                expect: {
+                    name: name
+                },
+            },
+            {
+                label: 'All values can be set',
+                values: {
+                    name: name,
+                    profile: {
+                        description: description,
+                        culture: culture,
+                        password: password
+                    },
+                },
+                expect: {
+                    name: name,
+                    profile: {
+                        description: description,
+                        culture: culture,
+                        password: password
+                    },
+                },
+            }
+        ];
+
+        async.each(cases, function(testCase, next) {
+            var form = new Form();
+
+            form.populate(testCase.values, function(err, form) {
+                diff.deepEqual(testCase.expect, form.values, testCase.label);
+                next();
+
+            });
+        }, done);
+
+    });
+
     test('test validation and required', function(done) {
         var value = Faker.Lorem.sentence();
 
