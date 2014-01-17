@@ -24,7 +24,8 @@
         "js-beautify": "~1.4.2",
         "jshint": "~2.3.0",
         "mocha": "~1.15.1",
-        "Faker": "~0.5.11"
+        "Faker": "~0.5.11",
+        "assert-diff": "0.0.4"
     },
     "dependencies": {
         "forms": "~0.3.0",
