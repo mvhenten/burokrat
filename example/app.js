@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -58,6 +57,12 @@ var Profile = Burokrat.create(function() {
                 label: 'Screen name',
                 placeholder: '***',
                 validators: []
+            },
+            ok: {
+                type: 'checkbox',
+                required: false,
+                label: 'I\'m OK',
+                validators: []
             }
         }
     };
@@ -65,27 +70,30 @@ var Profile = Burokrat.create(function() {
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
-app.all('/',function(req, res, next ){
-  req.profile = new Profile();
-  next();
+app.all('/', function(req, res, next) {
+    req.profile = new Profile();
+    next();
 });
 
-app.post('/',function(req, res, next ){
-  req.profile.validate(req.body, function(err, form){
-    if ( ! form.isValid ) return next();
+app.post('/', function(req, res, next) {
+    req.profile.validate(req.body, function(err, form) {
+        if (!form.isValid) return next();
 
-    res.send('<html><pre>' + JSON.stringify(form.values) + '</pre></html>');
+        res.send('<html><pre>' + JSON.stringify(form.values) + '</pre></html>');
 
-  });
+    });
 });
 
-app.all('/',function(req, res ){
-  res.render('index', { title: 'Express', form: req.profile.toHTML() });
+app.all('/', function(req, res) {
+    res.render('index', {
+        title: 'Express',
+        form: req.profile.toHTML()
+    });
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+    console.log('Express server listening on port ' + app.get('port'));
 });
